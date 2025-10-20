@@ -1,4 +1,5 @@
 (function () {
+    const board = document.getElementById('puzzle-board');
     const pieces = Array.from(document.querySelectorAll('.puzzle-piece'));
     const shuffleButton = document.getElementById('shuffle-button');
     const overlay = document.getElementById('puzzle-complete');
@@ -8,6 +9,10 @@
     const cols = 3;
     let order = Array.from({ length: rows * cols }, (_, i) => i);
     let selectedIndex = null;
+    const imageDimensions = {
+        width: null,
+        height: null,
+    };
 
     function hideOverlay() {
         overlay.classList.remove('is-visible');
@@ -111,10 +116,18 @@
         playAgainButton.addEventListener('click', shufflePieces);
     }
 
+    function applyImageAspectRatio() {
+        if (!board || !imageDimensions.width || !imageDimensions.height) {
+            return;
+        }
+
+        board.style.aspectRatio = `${imageDimensions.width} / ${imageDimensions.height}`;
+    }
+
     function preloadImage(src) {
         return new Promise((resolve, reject) => {
             const img = new Image();
-            img.onload = resolve;
+            img.onload = () => resolve(img);
             img.onerror = reject;
             img.src = src;
         });
@@ -125,11 +138,20 @@
             piece.style.backgroundImage = `url("${window.PUZZLE_IMAGE_URL}")`;
         });
 
+        applyImageAspectRatio();
         hideOverlay();
         renderPieces();
         shufflePieces();
         attachListeners();
     }
 
-    preloadImage(window.PUZZLE_IMAGE_URL).then(init).catch(init);
+    preloadImage(window.PUZZLE_IMAGE_URL)
+        .then((img) => {
+            imageDimensions.width = img.naturalWidth;
+            imageDimensions.height = img.naturalHeight;
+            init();
+        })
+        .catch(() => {
+            init();
+        });
 })();

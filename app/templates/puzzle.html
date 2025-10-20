@@ -18,26 +18,20 @@
             <p class="puzzle-subtitle">Toque em duas peças para trocá-las de lugar até completar a imagem.</p>
         </header>
 
-        <section class="puzzle-area" aria-label="Jogo de quebra-cabeça">
-            <div id="puzzle-board" class="puzzle-board" role="grid">
-                {% for index in range(9) %}
-                <button class="puzzle-piece" data-index="{{ index }}" role="gridcell" aria-label="Peça {{ index + 1 }}"></button>
-                {% endfor %}
-            </div>
-        </section>
+        <div class="puzzle-card">
+            <section class="puzzle-area" aria-label="Jogo de quebra-cabeça">
+                <div id="puzzle-board" class="puzzle-board" role="grid">
+                    {% for index in range(9) %}
+                    <button class="puzzle-piece" data-index="{{ index }}" role="gridcell" aria-label="Peça {{ index + 1 }}"></button>
+                    {% endfor %}
+                </div>
+            </section>
 
-        <section class="puzzle-controls">
-            <button id="shuffle-button" class="primary-button">Embaralhar novamente</button>
-            <a href="{{ url_for('main.home') }}" class="secondary-button">Voltar</a>
-        </section>
-
-        <aside class="puzzle-instructions">
-            <h2>Dicas rápidas</h2>
-            <ul>
-                <li>As peças já começam embaralhadas. Toque em uma peça e depois em outra para trocarem de lugar.</li>
-                <li>Use quantos toques quiser. Quando acertar todas as posições, uma mensagem aparecerá!</li>
-            </ul>
-        </aside>
+            <section class="puzzle-controls">
+                <button id="shuffle-button" class="primary-button">Embaralhar novamente</button>
+                <a href="{{ url_for('main.home') }}" class="secondary-button">Voltar</a>
+            </section>
+        </div>
 
         <div id="puzzle-complete" class="completion-overlay" role="alert" aria-live="assertive" hidden>
             <div class="completion-card">
@@ -49,7 +43,7 @@
     </main>
 
     <script>
-        window.PUZZLE_IMAGE_URL = "{{ url_for('static', filename='img/quebra_cabeca.svg') }}";
+        window.PUZZLE_IMAGE_URL = "{{ url_for('static', filename='img/foto.png') }}";
     </script>
     <script src="{{ url_for('static', filename='js/puzzle.js') }}"></script>
 </body>
