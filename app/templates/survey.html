@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de Satisfação</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/survey.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <a href="/" class="back-button">&#8592; Voltar</a>
+
+    <main class="survey-wrapper">
+        {% if survey %}
+        <header class="survey-header">
+            <h1>{{ survey.title }}</h1>
+            <p>Leva só alguns minutinhos para compartilhar a sua experiência.</p>
+        </header>
+
+        <form method="POST" class="survey-form">
+            {% for question in survey.questions %}
+            <section class="survey-question">
+                <h2 id="question_{{ question.id }}_label">
+                    <span class="index">{{ loop.index }}.</span>
+                    {{ question.text }}
+                </h2>
+
+                {% if question.question_type == 'texto' %}
+                <textarea name="question_{{ question.id }}" id="question_{{ question.id }}" rows="4"
+                    placeholder="Escreva sua resposta" aria-labelledby="question_{{ question.id }}_label"
+                    required></textarea>
+
+                {% elif question.question_type == 'termometro' %}
+                <div class="thermometer" role="radiogroup" aria-labelledby="question_{{ question.id }}_label">
+                    {% for value, label in [(1, 'Muito insatisfeito'), (2, 'Insatisfeito'), (3, 'Neutro'), (4, 'Satisfeito'), (5, 'Muito satisfeito')] %}
+                    <label class="thermometer-option">
+                        <input type="radio" name="question_{{ question.id }}" value="{{ value }}" required>
+                        <span class="circle">{{ value }}</span>
+                        <span class="legend">{{ label }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+
+                {% elif question.question_type == 'multipla' and question.options %}
+                <div class="choice-group" role="radiogroup" aria-labelledby="question_{{ question.id }}_label">
+                    {% for option in question.options %}
+                    {% set option_id = 'question_' ~ question.id ~ '_option_' ~ option.id %}
+                    <label class="choice-option" for="{{ option_id }}">
+                        <input type="radio" name="question_{{ question.id }}" id="{{ option_id }}" value="{{ option.text }}"
+                            required>
+                        <span class="choice-indicator"></span>
+                        <span class="choice-text">{{ option.text }}</span>
+                    </label>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <textarea name="question_{{ question.id }}" id="question_{{ question.id }}" rows="4"
+                    placeholder="Escreva sua resposta" aria-labelledby="question_{{ question.id }}_label"
+                    required></textarea>
+                {% endif %}
+            </section>
+            {% endfor %}
+
+            <div class="form-actions">
+                <button type="submit" class="submit-button">Enviar respostas</button>
+            </div>
+        </form>
+        {% else %}
+        <section class="empty-state">
+            <div class="empty-icon" aria-hidden="true">📝</div>
+            <h1>Estamos preparando algo especial!</h1>
+            <p>Nenhuma pesquisa está disponível agora. Volte em breve para compartilhar sua opinião.</p>
+        </section>
+        {% endif %}
+    </main>
+</body>
+
+</html>

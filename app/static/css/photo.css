@@ -217,6 +217,26 @@
             background: rgba(239, 68, 68, 0.9);
         }
 
+        .back-button {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1100;
+            background: rgba(255, 255, 255, 0.9);
+            color: #f25c05;
+            padding: 12px 20px;
+            border-radius: 999px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.3);
+        }
+
         @media (max-width: 768px) {
             .frames-panel {
                 left: 10px;
