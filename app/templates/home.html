@@ -1,0 +1,61 @@
+<html class="scroll-smooth" lang="pt-BR">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>Totem de Atendimento</title>
+    <script src="https://cdn.tailwindcss.com">
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab&amp;display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img class="logo-m" src="{{ url_for('static', filename='img/BeCooper_horizontal (2).png') }}" alt="">
+        </div>
+        <h2 class="title">
+            Nunca foi tão fácil se tornar cooperado!
+        </h2>
+        <div class="cards-container">
+            <a href="/associacao">
+                <div class="card">
+                    <p>
+                        Clique e faça sua associação em segundos!
+                    </p>
+                    <img src="{{ url_for('static', filename='img/toque-na-tela.png') }}" alt="">
+                </div>
+            </a>
+            <a href="/photo">
+                <div class="card">
+                    <p>
+                        Junte a galera e registre esse momento com muita alegria!
+                    </p>
+                    <img draggable="false" height="96" src="../static/img/foto.png" width="64" />
+                </div>
+            </a>
+            <a href="">
+                <div class="card">
+                    <p>
+                        Sua opinião importa! Responda a nossa pesquisa.
+                    </p>
+                    <img draggable="false" height="96" src="../static/img/lupa.png" width="64" />
+                </div>
+            </a>
+        </div>
+        <div class="buttons-container">
+            <button aria-label="English" class="btn" type="button">
+                <span>&gt;</span>
+                <p>English</p>
+            </button>
+            <button aria-label="Português" class="btn" type="button">
+                <span>&gt;</span>
+                <p>Português</p>
+            </button>
+        </div>
+
+    </div>
+</body>
+
+</html>

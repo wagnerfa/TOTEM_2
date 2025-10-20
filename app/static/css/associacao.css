@@ -1,0 +1,246 @@
+body {
+    font-family: "Roboto", sans-serif;
+    background: #f7f6f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.form-card {
+    margin: 20px;
+    background: #fff;
+    padding: 50px 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 700px;
+}
+
+.form-card h2 {
+    text-align: center;
+    margin-bottom: 35px;
+    color: #333;
+    font-size: 2rem;
+}
+
+.form-group {
+    margin-bottom: 22px;
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="tel"] {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: 1px solid #d1d5db;
+    font-size: 15px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    box-sizing: border-box;
+    margin-top: 6px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+input[type="tel"]:focus {
+    border-color: #F28705;
+    box-shadow: 0 0 8px rgba(242, 135, 5, 0.3);
+    outline: none;
+}
+
+input::placeholder {
+    color: #aaa;
+    transition: opacity 0.3s;
+}
+
+input:focus::placeholder {
+    opacity: 0.5;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 8px;
+}
+
+.radio-group label {
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    position: relative;
+    padding-left: 30px;
+    color: #555;
+}
+
+.radio-group input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.custom-radio {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #F28705;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-radio::after {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #F25C05;
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+.radio-group input[type="radio"]:checked+.custom-radio::after {
+    transform: scale(1);
+}
+
+button {
+    width: 100%;
+    padding: 16px;
+    background: #F28705;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #F25C05;
+}
+
+@media (max-width: 480px) {
+    .form-card {
+        padding: 35px 25px;
+    }
+}
+
+/* ===== Botão Flutuante ===== */
+.qr-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    transition: transform 0.2s;
+}
+
+.qr-btn:hover {
+    transform: scale(1.05);
+}
+
+.qr-btn img {
+    width: 40px;
+    height: 40px;
+}
+
+/* ===== Popup ===== */
+.qr-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+.hidden {
+    display: none;
+}
+
+.qr-popup-content {
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    max-width: 95%;
+    max-height: 95%;
+    animation: zoomIn 0.3s ease;
+}
+
+.qr-image {
+    width: 350px;
+    max-width: 80vw;
+    height: auto;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
+/* Animações */
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

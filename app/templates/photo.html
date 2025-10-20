@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Câmera com Molduras - Tela Cheia</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/photo.css') }}">
+</head>
+
+<body>
+
+    <div class="camera-container" id="cameraContainer">
+        <video id="video" autoplay playsinline></video>
+        <canvas id="canvas"></canvas>
+        <div id="frameOverlay" class="frame-overlay"></div>
+    </div>
+
+
+    <div class="frames-panel" id="framesPanel">
+        <div class="frames-title">Molduras</div>
+        <div class="frames-grid">
+
+            <div class="frame-option no-frame selected" data-frame="">
+                SEM<br>MOLDURA
+            </div>
+
+            {% for frame in frames %}
+            <div class="frame-option" data-frame="{{ frame }}">
+                <img src="{{ url_for('static', filename='frames/' + frame) }}" alt="{{ frame }}" class="frame-preview">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="controls" id="controls">
+        <button id="captureBtn" class="btn primary">📷</button>
+        <button id="downloadBtn" class="btn hidden">💾 Salvar</button>
+        <div id="timer" class="timer hidden">5</div>
+    </div>
+
+
+    <div id="status" class="status hidden"></div>
+
+
+    <script src="../static/js/photo.js"></script>
+</body>
+
+</html>
