@@ -11,6 +11,10 @@ let timerInterval = null;
 let spawnTimeout = null;
 let activeIndex = null;
 
+function computeDelay() {
+    return Math.max(1000 - score * 15, 400);
+}
+
 function resetGameState() {
     score = 0;
     timeLeft = 30;
@@ -45,15 +49,20 @@ function activateRandomTarget() {
     nextTarget.classList.add('active');
 }
 
-function scheduleNextTarget() {
-    const baseDelay = Math.max(1000 - score * 15, 400);
+function scheduleNextTarget(extraDelay = 0) {
+    if (spawnTimeout) {
+        clearTimeout(spawnTimeout);
+    }
+
+    const delay = computeDelay() + extraDelay;
+
     spawnTimeout = setTimeout(() => {
         if (!isRunning) {
             return;
         }
         activateRandomTarget();
         scheduleNextTarget();
-    }, baseDelay);
+    }, delay);
 }
 
 function stopGame(message) {
@@ -104,7 +113,9 @@ targets.forEach((target) => {
         score += 1;
         updateScore();
         feedback.textContent = 'Boa! Continue assim!';
-        activateRandomTarget();
+        clearActiveTarget();
+        activeIndex = null;
+        scheduleNextTarget(250);
     });
 });
 
