@@ -9,6 +9,16 @@
     let order = Array.from({ length: rows * cols }, (_, i) => i);
     let selectedIndex = null;
 
+    function hideOverlay() {
+        overlay.classList.remove('is-visible');
+        overlay.setAttribute('hidden', '');
+    }
+
+    function showOverlay() {
+        overlay.classList.add('is-visible');
+        overlay.removeAttribute('hidden');
+    }
+
     function setPieceVisual(piece, positionIndex) {
         const row = Math.floor(positionIndex / cols);
         const col = positionIndex % cols;
@@ -29,10 +39,12 @@
     }
 
     function shufflePieces() {
-        order = [...order]
-            .map((value) => ({ value, sort: Math.random() }))
-            .sort((a, b) => a.sort - b.sort)
-            .map(({ value }) => value);
+        for (let i = order.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            const temp = order[i];
+            order[i] = order[j];
+            order[j] = temp;
+        }
 
         if (order.every((value, index) => value === index)) {
             return shufflePieces();
@@ -40,7 +52,7 @@
 
         selectedIndex = null;
         pieces.forEach((piece) => piece.classList.remove('is-selected'));
-        overlay.hidden = true;
+        hideOverlay();
         renderPieces();
     }
 
@@ -55,7 +67,7 @@
     function checkCompletion() {
         const isComplete = order.every((value, index) => value === index);
         if (isComplete) {
-            overlay.hidden = false;
+            showOverlay();
         }
     }
 
@@ -113,6 +125,7 @@
             piece.style.backgroundImage = `url("${window.PUZZLE_IMAGE_URL}")`;
         });
 
+        hideOverlay();
         renderPieces();
         shufflePieces();
         attachListeners();

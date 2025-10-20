@@ -150,6 +150,10 @@ body {
     backdrop-filter: blur(3px);
 }
 
+.completion-overlay[hidden] {
+    display: none !important;
+}
+
 .completion-card {
     background: #fff7e0;
     padding: clamp(2rem, 4vw, 3rem);
