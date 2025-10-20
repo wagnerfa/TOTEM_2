@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quebra-cabeça da Cooperativa</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/puzzle.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <main class="puzzle-wrapper">
+        <header class="puzzle-header">
+            <h1>Monte a nossa mascote!</h1>
+            <p class="puzzle-subtitle">Toque em duas peças para trocá-las de lugar até completar a imagem.</p>
+        </header>
+
+        <section class="puzzle-area" aria-label="Jogo de quebra-cabeça">
+            <div id="puzzle-board" class="puzzle-board" role="grid">
+                {% for index in range(9) %}
+                <button class="puzzle-piece" data-index="{{ index }}" role="gridcell" aria-label="Peça {{ index + 1 }}"></button>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="puzzle-controls">
+            <button id="shuffle-button" class="primary-button">Embaralhar novamente</button>
+            <a href="{{ url_for('main.home') }}" class="secondary-button">Voltar</a>
+        </section>
+
+        <aside class="puzzle-instructions">
+            <h2>Dicas rápidas</h2>
+            <ul>
+                <li>As peças já começam embaralhadas. Toque em uma peça e depois em outra para trocarem de lugar.</li>
+                <li>Use quantos toques quiser. Quando acertar todas as posições, uma mensagem aparecerá!</li>
+            </ul>
+        </aside>
+
+        <div id="puzzle-complete" class="completion-overlay" role="alert" aria-live="assertive" hidden>
+            <div class="completion-card">
+                <h2>Parabéns!</h2>
+                <p>Você montou a nossa mascote com sucesso.</p>
+                <button id="play-again" class="primary-button">Jogar novamente</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        window.PUZZLE_IMAGE_URL = "{{ url_for('static', filename='img/quebra_cabeca.svg') }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/puzzle.js') }}"></script>
+</body>
+
+</html>
