@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obrigado!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/survey.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <a href="/" class="back-button">&#8592; Voltar</a>
+    <main class="survey-wrapper">
+        <section class="thank-you-card">
+            <h1>Obrigado por compartilhar!</h1>
+            <p>Suas respostas nos ajudam a melhorar a experiência dos nossos cooperados. Em instantes você poderá
+                responder novamente.</p>
+            <div class="thank-you-actions">
+                <a href="{{ url_for('main.survey_form') }}" class="primary">Responder outra vez</a>
+                <a href="/" class="secondary">Voltar para o início</a>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        setTimeout(() => {
+            window.location.href = "{{ url_for('main.survey_form') }}";
+        }, 5000);
+    </script>
+</body>
+
+</html>
