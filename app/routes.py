@@ -39,6 +39,11 @@ def home():
     return render_template("home.html")
 
 
+@main.route("/jogo")
+def game():
+    return render_template("game.html")
+
+
 def _get_active_survey():
     survey = (
         Survey.query.filter_by(is_active=True)

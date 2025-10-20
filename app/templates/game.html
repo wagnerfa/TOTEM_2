@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jogo Rápido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/game.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <main class="game-wrapper">
+        <header class="game-header">
+            <h1>Toque no Alvo!</h1>
+            <p class="game-subtitle">Toque no círculo iluminado o mais rápido possível para marcar pontos.</p>
+            <div class="scoreboard">
+                <div class="scoreboard-item">
+                    <span class="label">Tempo</span>
+                    <span id="time-display">30</span>
+                </div>
+                <div class="scoreboard-item">
+                    <span class="label">Pontuação</span>
+                    <span id="score-display">0</span>
+                </div>
+            </div>
+        </header>
+
+        <section class="game-area" aria-label="Área do jogo">
+            <div class="game-grid" role="grid">
+                {% for index in range(9) %}
+                <button class="target" data-cell-index="{{ index }}" role="gridcell" aria-label="Posição {{ index + 1 }}">
+                    <span class="target-inner"></span>
+                </button>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="game-controls">
+            <button id="start-button" class="primary-button">Começar</button>
+            <a href="{{ url_for('main.home') }}" class="secondary-button">Voltar</a>
+        </section>
+
+        <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/game.js') }}"></script>
+</body>
+
+</html>
