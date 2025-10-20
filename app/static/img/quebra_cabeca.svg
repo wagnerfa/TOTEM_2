@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500">
+  <defs>
+    <linearGradient id="wing-shade" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#d7d7d7" stop-opacity="0.95"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="transparent"/>
+  <g stroke="#000" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <ellipse cx="120" cy="250" rx="70" ry="110" fill="url(#wing-shade)"/>
+    <ellipse cx="280" cy="250" rx="70" ry="110" fill="url(#wing-shade)"/>
+    <ellipse cx="200" cy="170" rx="110" ry="110" fill="#ffd700"/>
+    <ellipse cx="200" cy="320" rx="120" ry="150" fill="#ffd700"/>
+    <path d="M320 340 L370 370 L320 400 Z" fill="#ffcd00"/>
+    <path d="M200 230 C210 260 240 270 270 260" fill="none"/>
+    <ellipse cx="150" cy="170" rx="50" ry="60" fill="#fff"/>
+    <ellipse cx="250" cy="170" rx="50" ry="60" fill="#fff"/>
+    <circle cx="165" cy="195" r="15" fill="#000"/>
+    <circle cx="235" cy="195" r="15" fill="#000"/>
+    <path d="M150 230 Q200 280 250 230" fill="none"/>
+    <rect x="90" y="260" width="80" height="40" fill="#fff"/>
+    <rect x="230" y="260" width="80" height="40" fill="#fff"/>
+    <path d="M170 260 L200 300 L140 300 Z" fill="#fff"/>
+    <path d="M230 260 L200 300 L260 300 Z" fill="#fff"/>
+    <path d="M200 300 L170 360 L230 360 Z" fill="#b00000"/>
+    <rect x="180" y="360" width="40" height="110" fill="#b00000"/>
+    <path d="M80 290 L130 290 L130 310 L70 310 Z" fill="#fff"/>
+    <path d="M320 290 L370 290 L330 310 L270 310 Z" fill="#fff"/>
+    <ellipse cx="70" cy="310" rx="20" ry="25" fill="#ffd700"/>
+    <ellipse cx="330" cy="310" rx="20" ry="25" fill="#ffd700"/>
+  </g>
+  <g fill="#2b2b2b">
+    <rect x="110" y="270" width="180" height="20"/>
+    <rect x="110" y="310" width="180" height="20"/>
+    <rect x="110" y="350" width="180" height="20"/>
+  </g>
+</svg>
