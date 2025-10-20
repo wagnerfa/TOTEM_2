@@ -44,6 +44,11 @@ def game():
     return render_template("game.html")
 
 
+@main.route("/quebra-cabeca")
+def puzzle():
+    return render_template("puzzle.html")
+
+
 def _get_active_survey():
     survey = (
         Survey.query.filter_by(is_active=True)
