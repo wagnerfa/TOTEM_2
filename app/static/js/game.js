@@ -46,13 +46,14 @@ function activateRandomTarget() {
 }
 
 function scheduleNextTarget() {
+    const baseDelay = Math.max(1000 - score * 15, 400);
     spawnTimeout = setTimeout(() => {
         if (!isRunning) {
             return;
         }
         activateRandomTarget();
         scheduleNextTarget();
-    }, Math.max(600 - score * 10, 250));
+    }, baseDelay);
 }
 
 function stopGame(message) {
