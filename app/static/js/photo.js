@@ -14,13 +14,21 @@
         const downloadBtn = document.getElementById('downloadBtn');
         const statusDiv = document.getElementById('status');
         const timerDiv = document.getElementById('timer');
-
-        // Iniciar câmera automaticamente
-        startCamera();
+        const cameraSelector = document.getElementById('cameraSelector');
+        const cameraSelect = document.getElementById('cameraSelect');
 
         // Event listeners
         captureBtn.addEventListener('click', startTimer);
         downloadBtn.addEventListener('click', savePhoto);
+
+        if (cameraSelect) {
+            cameraSelect.addEventListener('change', () => {
+                const chosenDeviceId = cameraSelect.value;
+                if (chosenDeviceId) {
+                    startCamera(chosenDeviceId);
+                }
+            });
+        }
 
         // Event listeners das molduras
         document.querySelectorAll('.frame-option').forEach(option => {
@@ -37,16 +45,67 @@
             }, 3000);
         }
 
-        async function startCamera() {
+        async function populateCameraOptions(activeDeviceId = '') {
+            if (!cameraSelect || !cameraSelector) {
+                return;
+            }
+
             try {
-                showStatus('Iniciando câmera...', 'info');
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const videoDevices = devices.filter(device => device.kind === 'videoinput');
+
+                cameraSelect.innerHTML = '';
+
+                videoDevices.forEach((device, index) => {
+                    const option = document.createElement('option');
+                    option.value = device.deviceId || `camera-${index}`;
+                    option.textContent = device.label || `Câmera ${index + 1}`;
+
+                    if (device.deviceId === activeDeviceId || (!activeDeviceId && index === 0)) {
+                        option.selected = true;
+                    }
+
+                    cameraSelect.appendChild(option);
+                });
+
+                if (videoDevices.length > 1) {
+                    cameraSelector.classList.remove('hidden');
+                } else {
+                    cameraSelector.classList.add('hidden');
+                }
+            } catch (error) {
+                console.error('Erro ao listar câmeras:', error);
+                cameraSelector.classList.add('hidden');
+            }
+        }
+
+        async function startCamera(preferredDeviceId = '') {
+            try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    showStatus('Recurso de câmera não suportado neste dispositivo.', 'error');
+                    return;
+                }
+
+                showStatus(preferredDeviceId ? 'Trocando de câmera...' : 'Iniciando câmera...', 'info');
+
+                if (currentStream) {
+                    currentStream.getTracks().forEach(track => track.stop());
+                    currentStream = null;
+                }
+
+                const videoConstraints = {
+                    width: { ideal: 1920 },
+                    height: { ideal: 1080 }
+                };
+
+                if (preferredDeviceId) {
+                    videoConstraints.deviceId = { exact: preferredDeviceId };
+                } else {
+                    videoConstraints.facingMode = 'user';
+                }
 
                 const stream = await navigator.mediaDevices.getUserMedia({
-                    video: {
-                        width: { ideal: 1920 },
-                        height: { ideal: 1080 },
-                        facingMode: 'user'
-                    }
+                    video: videoConstraints
                 });
 
                 currentStream = stream;
@@ -57,13 +116,38 @@
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     showStatus('Câmera ativa! Escolha uma moldura e tire sua foto.', 'success');
-                });
+                }, { once: true });
+
+                const [videoTrack] = stream.getVideoTracks();
+                const settings = videoTrack && typeof videoTrack.getSettings === 'function' ? videoTrack.getSettings() : {};
+                const activeDeviceId = settings.deviceId || preferredDeviceId;
+
+                await populateCameraOptions(activeDeviceId);
 
             } catch (error) {
                 console.error('Erro ao acessar câmera:', error);
-                showStatus('Erro ao acessar a câmera. Verifique as permissões.', 'error');
+                showStatus('Erro ao acessar a câmera. Verifique as permissões ou tente outra opção.', 'error');
+
+                if (preferredDeviceId) {
+                    await populateCameraOptions();
+                }
             }
         }
+
+        if (navigator.mediaDevices && navigator.mediaDevices.addEventListener) {
+            navigator.mediaDevices.addEventListener('devicechange', async () => {
+                const selectedId = cameraSelect ? cameraSelect.value : '';
+                await populateCameraOptions(selectedId);
+            });
+        } else if (navigator.mediaDevices) {
+            navigator.mediaDevices.ondevicechange = async () => {
+                const selectedId = cameraSelect ? cameraSelect.value : '';
+                await populateCameraOptions(selectedId);
+            };
+        }
+
+        // Iniciar câmera automaticamente após definir utilidades
+        startCamera();
 
         function startTimer() {
             let countdown = 5;
