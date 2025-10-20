@@ -164,6 +164,7 @@ def download_file(filename):
 
 
 @main.route("/backoffice/pesquisas", methods=["GET", "POST"])
+@main.route("/backoffice/pesquisa", methods=["GET", "POST"])
 def manage_surveys():
     if request.method == "POST":
         title = request.form.get("title", "").strip()
