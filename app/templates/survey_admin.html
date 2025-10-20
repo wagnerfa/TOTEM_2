@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backoffice - Pesquisas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/survey_admin.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <a href="/" class="back-link">&#8592; Voltar ao totem</a>
+    <div class="admin-layout">
+        <section class="card">
+            <h1>Criar nova pesquisa</h1>
+            <p class="description">Monte uma pesquisa com perguntas de texto, múltipla escolha ou termômetro e publique
+                para o totem instantaneamente.</p>
+
+            <div class="info-banner">
+                <strong>Dica:</strong> perguntas do tipo termômetro exibem uma escala de 1 a 5 com estados de satisfação.
+            </div>
+
+            {% if error %}
+            <div class="error-message">{{ error }}</div>
+            {% endif %}
+
+            <form id="surveyForm" method="POST">
+                <label for="title">Título da pesquisa</label>
+                <input type="text" id="title" name="title" placeholder="Ex.: Pesquisa de satisfação do evento"
+                    required>
+
+                <input type="hidden" name="questions_data" id="questionsData">
+
+                <div class="questions-container" id="questionsContainer"></div>
+
+                <div class="actions-row">
+                    <button type="button" id="addQuestionBtn" class="outline">Adicionar pergunta</button>
+                    <button type="submit" class="primary">Salvar pesquisa</button>
+                </div>
+            </form>
+        </section>
+
+        <section class="card">
+            <h2>Pesquisas cadastradas</h2>
+            <p class="description">Ative a pesquisa desejada para que ela seja exibida no totem. Também é possível
+                baixar as respostas e remover pesquisas antigas.</p>
+
+            {% if surveys %}
+            <div class="surveys-list">
+                {% for survey in surveys %}
+                <article class="survey-card">
+                    <header>
+                        <h3>{{ survey.title }}</h3>
+                    </header>
+                    <div class="survey-meta">
+                        <span>{{ survey.questions|length }} perguntas</span>
+                        <span>Criada em {{ survey.created_at.strftime('%d/%m/%Y %H:%M') }}</span>
+                        <span class="status-pill {% if not survey.is_active %}inactive{% endif %}">
+                            {% if survey.is_active %}
+                            ● Ativa no totem
+                            {% else %}
+                            ● Inativa
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    {% if survey.questions %}
+                    {% set type_labels = {'texto': 'Texto', 'termometro': 'Termômetro', 'multipla': 'Múltipla escolha'} %}
+                    <details>
+                        <summary>Ver perguntas</summary>
+                        <ul>
+                            {% for question in survey.questions %}
+                            <li>{{ loop.index }}. {{ question.text }} ({{ type_labels.get(question.question_type, question.question_type|capitalize) }})
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </details>
+                    {% endif %}
+
+                    <div class="survey-actions">
+                        {% if not survey.is_active %}
+                        <form action="{{ url_for('main.activate_survey', survey_id=survey.id) }}" method="POST">
+                            <button type="submit" class="activate">Ativar</button>
+                        </form>
+                        {% endif %}
+                        <a class="download" href="{{ url_for('main.download_survey', survey_id=survey.id) }}">
+                            Download respostas
+                        </a>
+                        <form action="{{ url_for('main.delete_survey', survey_id=survey.id) }}" method="POST"
+                            onsubmit="return confirm('Tem certeza que deseja excluir esta pesquisa?');">
+                            <button type="submit" class="delete">Excluir</button>
+                        </form>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty-list">
+                Nenhuma pesquisa cadastrada até o momento.
+            </div>
+            {% endif %}
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/survey_admin.js') }}"></script>
+</body>
+
+</html>
